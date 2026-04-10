@@ -1,0 +1,57 @@
+{
+  "paths": {
+    "data": "data/scandinavia_2012_2013_norm_padded.nc",
+    "output": "results/scf_filled.nc",
+    "best_model_path": "model_best.pt",
+    "stats_dir": "stats/train",
+    "infer_data": "data/fullinput.nc",
+    "infer_out_dir": "results/inference",
+    "infer_output_nc": "scf_inference.nc"
+  },
+  "dataset": {
+    "predictors": [
+        "swe",
+        "t2m",
+        "elev",
+        "landcover",
+        "scf",
+        "swe_t2m_melt"
+        
+    ],
+    "lag_days": 1,
+    "split_method": "chronological",
+    "test_frac": 0.2,
+    "seed": 46,
+    "scf_quality_threshold": 0.7,
+    "cloud_min_blobs": 10,
+    "cloud_max_blobs": 20,
+    "cloud_min_radius": 50,
+    "cloud_max_radius": 150,
+    "persistence_days": 10,
+    "repeat_edge": true,
+    "scf_dropout_p": 0.1
+  },
+  "training": {
+    "batch_size": 8,
+    "num_epochs": 100,
+    "early_stop_patience": 15,
+    "grad_clip_max_norm": 5.0,
+    "use_amp": true
+  },
+  "optimizer": {
+    "name": "adamw",
+    "lr": 3e-4,
+    "weight_decay": 1e-2
+  },
+  
+  "inference": {
+    "mc_passes": 30
+  },
+  "scheduler": {
+    "use_scheduler": true,
+    "mode": "min",
+    "patience": 4,
+    "factor": 0.5,
+    "min_lr": 1e-6
+  }
+}
